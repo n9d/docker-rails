@@ -18,13 +18,13 @@ RUN apk add \
     w3m
 
 # use sqlite
-# RUN apk add sqlite sqlite-dev
+RUN apk add sqlite sqlite-dev
 
 # use postgresql
 # RUN apk add postgresql-client postgresql-dev
 
 # use mysql
-RUN apk add mysql-client mysql-dev
+# RUN apk add mysql-client mysql-dev
 
 # 環境変数設定
 ENV APP_USER smith

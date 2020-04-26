@@ -1,12 +1,13 @@
+
 # docker for rails
 
-# 特徴
+## 特徴
 - gemをコンテナ内に包含したコンテナ
 - 最新のrailsで作りたい
 
-# バージョンを指定したいとき
+## バージョンを指定したいとき
 
-## rubyのバージョンを指定する
+### rubyのバージョンを指定する
 
 - コンテナ作成前にdockerhub.comにて、該当バージョンのalpine製のものを探す
 
@@ -14,7 +15,7 @@ https://hub.docker.com/_/ruby?tab=tags
 
 - Dockerfileの先頭行を探したものに書き換える
 
-## railsのバージョンを指定する
+### railsのバージョンを指定する
 
 コンテナ作成前にGemfileのrails行を書き換える
 
@@ -22,14 +23,14 @@ https://hub.docker.com/_/ruby?tab=tags
 gem "rails","6.0.2"
 ```
 
-## dbのバージョンを指定する
+### dbのバージョンを指定する
 - コンテナ作成前にdockerhub.comにて、該当バージョンのalpine製のものを探す
 - docker-composeのbuild行を探したものに書き換える
 
 
-# sqlite3
+## sqlite3
 
-## コンテナ作成
+### コンテナ作成
 
 ```
 docker-compose build
@@ -45,7 +46,7 @@ exit
 docker-compose build
 ```
 
-## コンテナ起動
+### コンテナ起動
 
 ```
 docker-compose up
@@ -53,9 +54,9 @@ docker-compose up
 
 - http://localhost:3000/ にてアクセスできる
 
-# postgresql
+## postgresql
 
-## 前準備
+### 前準備
 
 - Dockerfileの `for sqlite3`をコメントアウト、`for postgresql` のapkをコメントインする
 
@@ -66,7 +67,7 @@ cp docker-compose.yml.postgresql docker-compose.yml
 ```
 
 
-## コンテナ作成
+### コンテナ作成
 
 ```
 docker-compose build
@@ -83,7 +84,7 @@ ruby -e 'fn="config/database.yml"; s=open(fn).read.gsub(/(^default: &default$)/)
 docker-compose build
 ```
 
-## コンテナ起動
+### コンテナ起動
 
 ```
 docker-compose up
@@ -92,10 +93,10 @@ docker-compose up
 - http://localhost:3000/ にてアクセスできる
 
 
-# mysql
+## mysql
 
 
-## 前準備
+### 前準備
 
 - Dockerfileの `for sqlite3`をコメントアウト、`for mysql` のapkをコメントインする
 
@@ -106,7 +107,7 @@ cp docker-compose.yml.mysql docker-compose.yml
 ```
 
 
-## コンテナ作成
+### コンテナ作成
 
 ```
 docker-compose build
@@ -123,10 +124,41 @@ ruby -e 'fn="config/database.yml"; s=open(fn).read.gsub(/  username: root\n  pas
 docker-compose build
 ```
 
-## コンテナ起動
+### コンテナ起動
 
 ```
 docker-compose up
 ```
 
-- http://localhost:3000/ にてアクセスできる
+ - http://localhost:3000/ にてアクセスできる
+
+
+
+## apiサーバ
+
+- ほぼsqlite3と同じで `rails new` 時に `--api` をつけるだけ
+
+```
+rails new . -fG --api
+```
+
+### テスト
+
+- Helloコントローラを作成
+
+```
+rails g controller Hello
+ruby -e 'fn="app/controllers/hello_controller.rb";s=open(fn).read.gsub(/^end\Z/,"  def index; render json:{hello:\"world\"}; end;\nend"); open(fn,"w").write(s)'
+ruby -e 'fn="config/routes.rb";s=open(fn).read.gsub(/^end\Z/,"  get \"hello\", to: \"hello#index\
+"\nend"); open(fn,"w").write(s)'
+```
+
+```
+rails s -b 0.0.0.0
+```
+
+```
+$ curl http://localhost:3000/hello
+{"hello":"world"}
+```
+
