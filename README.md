@@ -33,12 +33,13 @@ gem "rails","6.0.2"
 ### コンテナ作成
 
 ```
+cp docker-compose-sqlite3.yml docker-compose.yml
 docker-compose build
 docker-compose run -p 3000:3000 api sh
 ```
 コンテナ内に入った後
 ```
-rails new . -f -G
+rails new . -fG
 exit
 ```
 ここで出来上がった Gemfile,Gemfile.lockでコンテナを作り直す
@@ -56,20 +57,10 @@ docker-compose up
 
 ## postgresql
 
-### 前準備
-
-- Dockerfileの `for sqlite3`をコメントアウト、`for postgresql` のapkをコメントインする
-
-- docker-compose.yml.postgresql を docker-compose.ymlにする
-
-```
-cp docker-compose.yml.postgresql docker-compose.yml
-```
-
-
 ### コンテナ作成
 
 ```
+cp docker-compose-postgresql.yml docker-compose.yml
 docker-compose build
 docker-compose run -p 3000:3000 api sh
 ```
@@ -95,21 +86,10 @@ docker-compose up
 
 ## mysql
 
-
-### 前準備
-
-- Dockerfileの `for sqlite3`をコメントアウト、`for mysql` のapkをコメントインする
-
-- docker-compose.yml.mysql を docker-compose.ymlにする
-
-```
-cp docker-compose.yml.mysql docker-compose.yml
-```
-
-
 ### コンテナ作成
 
 ```
+cp docker-compose-mysql.yml docker-compose.yml
 docker-compose build
 docker-compose run -p 3000:3000 api sh
 ```

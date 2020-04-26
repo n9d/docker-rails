@@ -1,7 +1,9 @@
 version: '3'
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-postgresql
     command: rails s -p 3000 -b '0.0.0.0'
     ports:
       - "3000:3000"
@@ -9,20 +11,16 @@ services:
       - db
     environment:
       - "DB_HOST=db"
-      - "DB_PORT=3306"
-      - "DB_USER=root"
+      - "DB_PORT=5432"
+      - "DB_USER=postgres"
       - "DB_PASSWORD=password"
     volumes:
       - .:/home/smith
 
   db:
-    image: mysql:8
+    image: postgres:12.2
     ports:
-      - "3306:3306"
+      - "5432:5432"
     environment:
-      - "MYSQL_USER=root"
-      - "MYSQL_ROOT_PASSWORD=password"
-    # volumes:
-    #   - ./db/mysql/volumes:/var/lib/mysql
-  
-  
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=password"
