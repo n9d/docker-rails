@@ -129,8 +129,7 @@ rails new . -fG --api
 ```
 rails g controller Hello
 ruby -e 'fn="app/controllers/hello_controller.rb";s=open(fn).read.gsub(/^end\Z/,"  def index; render json:{hello:\"world\"}; end;\nend"); open(fn,"w").write(s)'
-ruby -e 'fn="config/routes.rb";s=open(fn).read.gsub(/^end\Z/,"  get \"hello\", to: \"hello#index\
-"\nend"); open(fn,"w").write(s)'
+ruby -e 'fn="config/routes.rb";s=open(fn).read.gsub(/^end\Z/,"  get \"hello\", to: \"hello#index\"\nend"); open(fn,"w").write(s)'
 ```
 
 ```

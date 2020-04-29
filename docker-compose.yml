@@ -1,10 +1,24 @@
 version: '3'
 services:
   api:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile-sqlite3
     command: rails s -p 3000 -b '0.0.0.0'
     ports:
       - "3000:3000"
     # volumes:
     #   - .:/home/smith
-    
+
+    web:
+      build:
+        context: ./front/
+      command: [sh, -c, "yarn run start"]
+      ports:
+        - 5000:5000
+      depends_on:
+        - api
+      # volumes:
+      #   - ./front:/usr/src
+      #   - node_modules:/usr/src/node_modules
+  
