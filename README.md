@@ -1,6 +1,10 @@
 
 # docker for rails
 
+どうも内容が古臭くなってるので作り直した。
+https://github.com/n9d/rails-bootstrap
+
+
 ## 特徴
 - gemをコンテナ内に包含したコンテナ
 - 最新のrailsで作りたい
